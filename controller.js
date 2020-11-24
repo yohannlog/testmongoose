@@ -1,25 +1,16 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const model = require('./model')
 
 const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrites=true&w=majority";
-const mod = "Bidule";
-const col = "Bidule";
 
 connection();
 
 async function connection(){
     mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(async (connection) => {
-        const model = getModel();
         let res = await selectAll(model, 2);
         console.log(res);
         mongoose.disconnect();
     });
-}
-
-function getModel(){
-    console.log("model : " + mod + " ; collection : " + col);
-    return mongoose.model(mod, new Schema({ url: String, text: String, id: Number}, 
-        { collection : col }));
 }
 
 // ------------------------------------- CRUD ------------------------------------------- //
@@ -95,4 +86,16 @@ async function deleteMany(model, option){
     }).catch(function(error){ 
         console.log(error)        
     }); 
+}
+
+module.exports = {
+    connection,
+    create,
+    createMany,
+    selectAll,
+    select,
+    updateOne,
+    updateMany,
+    deleteOne,
+    deleteMany
 }
