@@ -16,5 +16,15 @@ app.get('/', (req, res) => {
 })
 
 app.listen(port, () => {
-	console.log('Example app listening at http://localhost:${port}')
+	console.log('Example app listening at http://localhost:'+port)
+})
+
+
+mongoose.connection.on('open', function (ref) {
+	console.log('Connected to mongo server.');
+	//trying to get collection names
+	mongoose.connection.db.listCollections().toArray(function (err, names) {
+		console.log(names); // [{ name: 'dbname.myCollection' }]
+		module.exports.Collection = names;
+	});
 })
