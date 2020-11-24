@@ -1,4 +1,3 @@
-<%
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
@@ -17,7 +16,7 @@ async function connection(){
     });
 }
 
-async function getModel(){
+function getModel(){
     console.log("model : " + mod + " ; collection : " + col);
     return mongoose.model(mod, new Schema({ url: String, text: String, id: Number}, 
         { collection : col }));
@@ -71,6 +70,5 @@ async function deleteMany(modele, option){
 }
 
 module.exports = {
-    connection: connection
+   connection:connection
 }
-%>
