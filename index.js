@@ -16,10 +16,10 @@ app.set('views', './views');
 app.set('view engine', 'ejs');
 
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
 	try {
 		console.log("z")
-		let result = helper.selectAll(1)
+		let result = await helper.selectAll(10)
 		console.log(result)
 		res.render('page.ejs', {ress: result});
 	} catch (err) {

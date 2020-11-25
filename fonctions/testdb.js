@@ -12,10 +12,8 @@ let Mist = mongoose.model('Mist', schema)
 
 connection();
 
-async function connection(){
+function connection(){
     mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(async (connection) => {
-
-        mongoose.disconnect();
     });
 }
 
@@ -26,10 +24,10 @@ async function getModel(){
 
 /******************************* SELECT ************************************/
 
- function selectAll(limit){
+ async function selectAll(limit){
     if(limit)
-        return Mist.find({}).limit(limit);
-    return Mist.find({});
+        return await Mist.find({}).limit(limit);
+    return await Mist.find({});
 }
 
 //pour avoir les valeurs entre x et y -> { $range: [ x, y ] }
