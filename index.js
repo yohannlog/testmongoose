@@ -17,7 +17,14 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', (req, res) => {
-	res.render('page',{helper:helper}); 
+	try {
+		console.log("z")
+		let result = helper.selectAll(1)
+		console.log(result)
+		res.render('page.ejs', {ress: result});
+	} catch (err) {
+		console.log(err)
+	}
 })
 
 app.listen(port, () => {

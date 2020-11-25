@@ -5,70 +5,72 @@ const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrit
 const mod = "Bidule";
 const col = "Bidule";
 
+const schema = new Schema({ url: String, text: String, id: Number},
+{ collection : col })
+
+let Mist = mongoose.model('Mist', schema)
+
 connection();
 
 async function connection(){
     mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(async (connection) => {
-        const model = getModel();
-        let res = await selectAll(model, 1);
-        console.log(res);
+
         mongoose.disconnect();
     });
 }
 
-function getModel(){
+async function getModel(){
     console.log("model : " + mod + " ; collection : " + col);
-    return mongoose.model(mod, new Schema({ url: String, text: String, id: Number}, 
-        { collection : col }));
+    return await mongoose.model(mod, schema);
 }
 
 /******************************* SELECT ************************************/
 
-async function selectAll(model, limit){
+ function selectAll(limit){
     if(limit)
-        return await model.find().limit(limit);
-    return await model.find();
+        return Mist.find({}).limit(limit);
+    return Mist.find({});
 }
 
 //pour avoir les valeurs entre x et y -> { $range: [ x, y ] }
-async function select(model, option){
-    return await model.find(option);
+async function select(option){
+    return await Mist.find(option);
 }
 
 /******************************* UPDATE *************************************/
 
 //options -> { name: 'Jean-Luc Picard' }
-async function updateOne(model, id, options){
-    return await model.replaceOne({ _id : id }, options);
+async function updateOne(id, options){
+    return await Mist.replaceOne({ _id : id }, options);
 }
 
 //filterOption -> même truc que pour un find
 //updateValues -> {valeur:"truc"}
-async function updateMany(model, filterOption, updateValues){
-    return model.updateMany(filterOption, updateValues);
+async function updateMany(filterOption, updateValues){
+    return Mist.updateMany(filterOption, updateValues);
 }
 
 
 /******************************* INSERT *************************************/
 
 //element -> {truc:"machin"}
-async function add(modele, element){
-    return await modele.push(element);
+async function add(element){
+    return await Mist.push(element);
 }
 
 
 /******************************* DELETE *************************************/
 
 //id -> 32
-async function deleteElementById(modele, id){
-    return await modele.deleteOne({ _id: id });
+async function deleteElementById(id){
+    return await Mist.deleteOne({ _id: id });
 }
 
 //option -> {"truc":"machin"}
-async function deleteMany(modele, option){
-    return await modele.deleteMany(option);
+async function deleteMany(option){
+    return await Mist.deleteMany(option);
 }
-
+module.exports = mongoose.model('List', schema)
 module.exports = {
-   connection:connection
+   connection, getModel, select, selectAll
 }
