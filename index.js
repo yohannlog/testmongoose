@@ -19,9 +19,9 @@ app.set('view engine', 'ejs');
 app.get('/', async (req, res) => {
 	try {
 		console.log("z")
-		let result = await helper.selectAll(10)
-		console.log(result)
-		res.render('page.ejs', {ress: result});
+		let result = await helper.selectAll(3)
+		console.log(result[0].name)
+		res.render('page.ejs', {results: result});
 	} catch (err) {
 		console.log(err)
 	}

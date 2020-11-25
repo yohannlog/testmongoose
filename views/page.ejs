@@ -1,6 +1,21 @@
 <html>
 <body>
-
+    <table>
+        <% results.forEach(function(result) {
+        //console.log(result['host_name'])
+        %>
+            <tr>
+                <td>
+                    <%= result['_id'] %>
+                </td>
+                <td>
+                    <%= result['id'] %>
+                </td>
+                <td>
+                    <%= result['name'] %>
+                </td>
+            </tr>
+        <% }); %>
+    </table>
 </body>
-
 </html>

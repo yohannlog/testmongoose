@@ -5,7 +5,7 @@ const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrit
 const mod = "Bidule";
 const col = "Bidule";
 
-const schema = new Schema({ url: String, text: String, id: Number},
+const schema = new Schema({ url: String, name: String, id: Number},
 { collection : col })
 
 let Mist = mongoose.model('Mist', schema)
@@ -24,10 +24,10 @@ async function getModel(){
 
 /******************************* SELECT ************************************/
 
- async function selectAll(limit){
+async function selectAll(limit){
     if(limit)
-        return await Mist.find({}).limit(limit);
-    return await Mist.find({});
+        return await Mist.find().limit(limit);
+    return await Mist.find();
 }
 
 //pour avoir les valeurs entre x et y -> { $range: [ x, y ] }
