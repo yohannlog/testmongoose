@@ -9,6 +9,7 @@ const app = express()
 const port = 1000
 let fs =require('fs-extra');
 const {model} = require("mongoose");
+const indexRoutes = require('./routes/routes.js')
 
 
 var mongoDB = 'mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/test'
@@ -19,15 +20,8 @@ app.set('views', './src/template');
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', async (req, res) => {
-	try {
-		let items = await controller.selectAll(10);
-		res.render('page.ejs', {items});
-	} catch (err) {
-		console.log(err)
-	}
-})
 
+app.use('/',indexRoutes)
 app.post('/upload', async (req, res) => {
 
 	let form = new formidable.IncomingForm();
@@ -56,32 +50,6 @@ app.post('/upload', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log('Example app listening at http://localhost:${port}')
+    console.log('Example app listening at http://localhost:'+port)
 });
 
-app.post('/addpre',async (req, res) => {
-
-	console.log({name: req.body.imgname})
-	await controller.updateOne({name: req.body.imgname},{tauxReussite: req.body.score, type: req.body.type});
-	res.redirect('/')
-});
-
-app.post('/add',async (req, res) => {
-    controller.create(model,req.body);
-    res.redirect('/')
-});
-
-app.get('/edit/:id', async (req, res) => {
-    let item = controller.select(model,{_id: req.params.id})
-    res.render('edit', { item });
-});
-
-app.post('/edit/:id', async (req, res) => {
-    await controller.updateOne(model,{_id: req.params.id},req.body)
-    res.redirect('/');
-});
-
-app.get('/delete/:id', async (req, res) => {
-    await controller.deleteOne(req.params.id)
-    res.redirect('/');
-});
