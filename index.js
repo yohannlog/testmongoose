@@ -2,6 +2,8 @@ const express = require('express')
 var mongoose  = require('mongoose')
 var bodyParser = require('body-parser')
 var formidable = require('formidable')
+const controller = require('./controller.js')
+const indexRoutes = require('./routes/routes.js')
 const app = express()
 const port = 1000
 let fs =require('fs-extra');
@@ -13,18 +15,7 @@ app.use(bodyParser.urlencoded())
 app.set('views', './src/template');
 app.set('view engine', 'ejs');
 
-
-app.get('/', async (req, res) => {
-	try {
-		console.log("z")
-		//let result = await helper.selectAll(3)
-		//console.log(result[0].name)
-		res.render('page.ejs');
-	} catch (err) {
-		console.log(err)
-	}
-})
-
+app.use('/', indexRoutes)
 app.post('/upload', async (req, res) => {
 
 	let form = new formidable.IncomingForm();
@@ -50,33 +41,7 @@ app.post('/upload', async (req, res) => {
 		res.end();
 	});
 });
-
 app.listen(port, () => {
-    console.log('Example app listening at http://localhost:${port}')
+	console.log('Example app listening at http://localhost:'+port)
 })
 
-app.get('/', async (req,res) =>{
-    let items = controller.selectAll(model,10);
-    res.render('page',{items})
-    console.log(items)
-})
-
-app.post('/add',async (req, res) => {
-    controller.create(model,req.body);
-    res.redirect('/')
-})
-
-app.get('/edit/:id', async (req, res) => {
-    let item = controller.select(model,{_id: req.params.id})
-    res.render('edit', { item });
-});
-
-app.post('/edit/:id', async (req, res) => {
-    controller.updateOne(model,{_id: req.params.id},req.body)
-    res.redirect('/');
-});
-
-app.get('/delete/:id', async (req, res) => {
-    controller.deleteOne(model,req.params.id)
-    res.redirect('/');
-});
