@@ -1,21 +1,10 @@
 <html>
 <body>
+<form method="post" action="upload" enctype="multipart/form-data">
+    <input type="file" name="fileUploaded">
+    <input type="submit">
+</form>
     <table>
-        <% results.forEach(function(result) {
-        //console.log(result['host_name'])
-        %>
-            <tr>
-                <td>
-                    <%= result['_id'] %>
-                </td>
-                <td>
-                    <%= result['id'] %>
-                </td>
-                <td>
-                    <%= result['name'] %>
-                </td>
-            </tr>
-        <% }); %>
     </table>
 </body>
 </html>

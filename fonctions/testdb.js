@@ -1,12 +1,11 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrites=true&w=majority";
+const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Images?retryWrites=true&w=majority";
 const mod = "Bidule";
 const col = "Bidule";
 
-const schema = new Schema({ url: String, name: String, id: Number},
-{ collection : col })
+const schema = new Schema({ date: String, nom: String, size: Number})
 
 let Mist = mongoose.model('Mist', schema)
 

@@ -1,17 +1,16 @@
 const express = require('express')
 var mongoose  = require('mongoose')
 var helper = require('./fonctions/testdb');
+var bodyParser = require('body-parser')
+var formidable = require('formidable')
 const app = express()
 const port = 1000
+let fs =require('fs-extra');
 
 var mongoDB = 'mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/test'
 
-/*mongoose.connect(mongoDB, {useNewUrlParser: true, useUnifiedTopology:true})
-
-var db = mongoose.connection
-
-db.on('error', console.error.bind(console, "MongoDB connection error:"))*/
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded())
 app.set('views', './views');
 app.set('view engine', 'ejs');
 
@@ -19,14 +18,40 @@ app.set('view engine', 'ejs');
 app.get('/', async (req, res) => {
 	try {
 		console.log("z")
-		let result = await helper.selectAll(3)
-		console.log(result[0].name)
-		res.render('page.ejs', {results: result});
+		//let result = await helper.selectAll(3)
+		//console.log(result[0].name)
+		res.render('page.ejs');
 	} catch (err) {
 		console.log(err)
 	}
 })
 
+app.post('/upload', async (req, res) => {
+
+	let form = new formidable.IncomingForm();
+	form.uploadDir = "./img";
+	form.keepExtensions = true;
+
+	form.parse(req, function (err, fields, files) {
+		res.writeHead(200, {'content-type': 'text/plain'});
+		res.write('received upload\n\n');
+
+		console.log("form.bytesReceived");
+		console.log("file size: "+JSON.stringify(files.fileUploaded.size));
+		console.log("file path: "+JSON.stringify(files.fileUploaded.path));
+		console.log("file name: "+JSON.stringify(files.fileUploaded.name));
+		console.log("file type: "+JSON.stringify(files.fileUploaded.type));
+		console.log("astModifiedDate: "+JSON.stringify(files.fileUploaded.lastModifiedDate));
+
+		fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
+			if (err)
+				throw err;
+			console.log('renamed complete');
+		});
+		res.end();
+	});
+});
+
 app.listen(port, () => {
-	console.log('Example app listening at http://localhost:${port}')
+	console.log('Example app listening at http://localhost:${port}');
 })
