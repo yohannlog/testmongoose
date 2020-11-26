@@ -1,8 +1,57 @@
 <html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 <body>
-<form method="post" action="upload" enctype="multipart/form-data">
-    <input type="file" name="fileUploaded">
-    <button type="submit" >okay</button>
-</form>
+<div>
+    <div>
+        Upload File
+        <form method="post" action="upload" enctype="multipart/form-data">
+            <input type="file" name="fileUploaded">
+            <button type="submit">okay</button>
+        </form>
+    </div>
+    <hr>
+    <table id="images">
+        <tr>
+            <td>N°</td>
+            <td>Type</td>
+            <td>Nom</td>
+        </tr>
+        <% for(var i=0; i < items.length; i++) { %>
+            <tr>
+                <td><%= i + 1 %></td>
+                <td><%= items[i].type %></td>
+                <td><b><%= items[i].name %></b></td>
+                <td><a href="delete/<%= items[i]._id %>"/>Delete</a></td>
+                <td><a href="image/<%= items[i]._id %>"/>View</a></td>
+            </tr>
+        <% } %>
+    </table>
+</div>
+<style>
+    #images {
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    #images td, #images th {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    #images tr:nth-child(even){background-color: #f2f2f2;}
+
+    #images tr:hover {background-color: #ddd;}
+
+    #images th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
 </body>
 </html>

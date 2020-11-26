@@ -1,4 +1,4 @@
-const model = require('../src/model/model')
+/*const model = require('../src/model/model')
 const express = require('express');
 const { selectAll, connection } = require('../controller');
 const router = express.Router();
@@ -32,4 +32,4 @@ router.get('/delete/:id', async (req, res) => {
     controller.deleteOne(model,req.params.id)
     res.redirect('/');
 });
-
+*/

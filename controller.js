@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const model = require('./src/model/model')
+const {ObjectID} = require("mongoose");
 
 const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrites=true&w=majority";
 
@@ -136,10 +137,6 @@ async function test(){
 
 connection();
 
-test()
-.then(
-    ()=> mongoose.disconnect()
-)
 module.exports = {
     connection,
     create,

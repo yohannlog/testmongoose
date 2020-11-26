@@ -1,4 +1,7 @@
 <html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
 <body>
 <p><%=image%></p>
 <img id="img" src="<%= image%>">
@@ -6,7 +9,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
 <!-- Load the coco-ssd model. -->
 <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
-
 
 <!-- Place your code in the script tag below. You can also use an external .js file -->
 <script>
@@ -18,7 +20,28 @@
     cocoSsd.load().then(model => {
         // detect objects in the image.
         model.detect(img).then(predictions => {
-            console.log('Predictions: ', predictions);
+            let pr =  predictions;
+
+            let imageName;
+
+            let imgn = document.getElementsByTagName('p')[0].innerHTML;
+            imgn = imgn.split('/');
+            imageName = imgn[imgn.length-1];
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                async: true,
+                data: "{\"imgname\": \"" + imageName + "\",\"type\":\"" + pr[0].class + "\",\"score\": \"" + pr[0].score + "\"}",
+                url: "/addpre"
+            }).done(function (response) {
+                nbr = parseInt(response);
+                result(nbr);
+            }).fail(function (xhr, textStatus, errorThrown) {
+                result = xhr.responseText
+            })
+            console.log(pr[0].class)
         });
     });
 </script>
