@@ -1,11 +1,13 @@
 <html>
 <body>
-<p><%=image%></p>
-<img id="img" src="<%= image%>">
+<img id="img" src="<%= image %>" >
+<canvas id="canvas"></canvas>
+<p>Résultat :</p>
+<div id="res"></div>
 <!-- Load TensorFlow.js. This is required to use coco-ssd model. -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
 <!-- Load the coco-ssd model. -->
-<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"> </script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/coco-ssd"></script>
 
 
 <!-- Place your code in the script tag below. You can also use an external .js file -->
@@ -19,8 +21,38 @@
         // detect objects in the image.
         model.detect(img).then(predictions => {
             console.log('Predictions: ', predictions);
+            console.log(predictions[0].class);
+            buildCanvas(predictions)
         });
     });
+
+    function buildCanvas(predictions) {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d");
+        let img = document.getElementById("img");
+        canvas.setAttribute("height",img.height);
+        canvas.setAttribute("width",img.width);
+        ctx.drawImage(img,0,0);
+        for (let i = 0; i < predictions.length; i++) {
+            let type = document.createElement("div");
+            let score = document.createElement("div");
+            type.appendChild(document.createTextNode("type :" + predictions[i].class));
+            score.appendChild(document.createTextNode("score :" + predictions[i].score * 100 + "%"));
+            document.getElementById("res").appendChild(type);
+            document.getElementById("res").appendChild(score);
+            drawIMG(predictions[i].bbox, ctx);
+        }
+    }
+
+    function drawIMG(bbox, ctx) {
+        ctx.beginPath();
+        ctx.rect(bbox[0], bbox[1], bbox[2], bbox[3]);
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = 'red';
+        ctx.fillStyle = 'red';
+        ctx.stroke();
+    }
+
 </script>
 </body>
 </html>
