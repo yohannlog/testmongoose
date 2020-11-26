@@ -9,8 +9,8 @@ const BiduleSchema = new Schema(
         id: Number,
         date: Date,
         name: String,
-        taille: BigInt,
-        tauxReussite:BigInt,
+        taille: Number,
+        tauxReussite:Number,
         type:String,
 
     },

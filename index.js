@@ -3,6 +3,7 @@ var mongoose  = require('mongoose')
 var bodyParser = require('body-parser')
 var formidable = require('formidable')
 const controller = require('./controller')
+const CocoService = require('./src/service/CocoService')
 const app = express()
 const port = 1000
 let fs =require('fs-extra');
@@ -42,11 +43,12 @@ app.post('/upload', async (req, res) => {
 		console.log("file name: "+JSON.stringify(files.fileUploaded.name));
 		console.log("file type: "+JSON.stringify(files.fileUploaded.type));
 		console.log("astModifiedDate: "+JSON.stringify(files.fileUploaded.lastModifiedDate));
-
+		CocoService.CocoService(files);
 		fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
 			if (err)
 				throw err;
 			console.log('renamed complete');
+
 		});
 		res.end();
 	});
