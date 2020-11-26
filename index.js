@@ -1,9 +1,10 @@
 const express = require('express')
-var mongoose  = require('mongoose')
+// var mongoose  = require('mongoose')
+var path = require("path");
 var bodyParser = require('body-parser')
 var formidable = require('formidable')
 const controller = require('./controller')
-const CocoService = require('./src/service/CocoService')
+// const CocoService = require('./src/service/CocoService')
 const app = express()
 const port = 1000
 let fs =require('fs-extra');
@@ -14,7 +15,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.set('views', './src/template');
 app.set('view engine', 'ejs');
-
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', async (req, res) => {
 	try {
@@ -43,7 +44,6 @@ app.post('/upload', async (req, res) => {
 		console.log("file name: "+JSON.stringify(files.fileUploaded.name));
 		console.log("file type: "+JSON.stringify(files.fileUploaded.type));
 		console.log("astModifiedDate: "+JSON.stringify(files.fileUploaded.lastModifiedDate));
-		CocoService.CocoService(files);
 		fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
 			if (err)
 				throw err;
