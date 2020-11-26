@@ -101,14 +101,14 @@ async function deleteMany(option){
     }); 
 }
 
-// TEST
+// TEST FUNCTION WITH SAMPLE DATA
 async function test(){
-    const itemstoCreate = [
-        { date: "11/11/2020", name : "Image 2", taille : 234957, tauxReussite: 999, type : "Cat"},
-        { date: "11/11/2020", name : "Image 3", taille : 234957, tauxReussite: 999, type : "Cat"},
-        { date: "11/11/2020", name : "Image 4", taille : 234957, tauxReussite: 999, type : "Cat"},
-        { date: "11/11/2020", name : "Image 5", taille : 234957, tauxReussite: 999, type : "Cat"},
-    ]
+    // const itemstoCreate = [
+    //     { date: "11/11/2020", name : "Image 2", taille : 234957, tauxReussite: 999, type : "Cat"},
+    //     { date: "11/11/2020", name : "Image 3", taille : 234957, tauxReussite: 999, type : "Cat"},
+    //     { date: "11/11/2020", name : "Image 4", taille : 234957, tauxReussite: 999, type : "Cat"},
+    //     { date: "11/11/2020", name : "Image 5", taille : 234957, tauxReussite: 999, type : "Cat"},
+    // ]
     // let res = await selectAll(4)
     // console.log(res)
     // await createMany(itemstoCreate)
@@ -116,8 +116,8 @@ async function test(){
     // await updateOne({_id: "5fbe4918bfb8cd4ad84a2c88"},{text : "Goodbye"})
     // await updateMany({ text : { '$regex': "Description", "$options":"i"}},{text : "Modified"})
     // await deleteMany({ text : { '$regex': "Description", "$options":"i"}})
-    let res = await selectById("5fbf8cb6cc8a8c197eb1242d")
-    console.log(res)
+    // let res = await selectById("5fbf8cb6cc8a8c197eb1242d")
+    // console.log(res)
     // await select({text : "Modified"})
     // await deleteOne('5fbe484621b6474a8c421c8a')
     
@@ -129,7 +129,6 @@ async function test(){
 
 connection();
 
-// test()
 module.exports = {
     connection,
     create,

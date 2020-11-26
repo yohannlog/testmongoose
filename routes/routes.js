@@ -15,6 +15,14 @@ router.post('/add',async (req, res) => {
     res.redirect('/')
 })
 
+router.post('/addpre',async (req, res) => {
+
+	console.log({name: req.body.imgname})
+	await controller.updateOne({name: req.body.imgname},{tauxReussite: req.body.score, type: req.body.type});
+	res.redirect('/')
+});
+
+
 router.get('/image/:id', async (req, res) => {
 	let item = await controller.selectById(req.params.id);
     res.render('imageView', { item});

@@ -1,10 +1,18 @@
+<html>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
 <div>
     <div>
         Upload File
-        <input type="file" id="input" multiple>
+        <form method="post" action="upload" enctype="multipart/form-data">
+            <input type="file" name="fileUploaded">
+            <button type="submit">Submit</button>
+        </form>
     </div>
     <hr>
-    <table id ="images">
+    <table id="images">
         <tr>
             <td>N°</td>
             <td>Type</td>
@@ -21,28 +29,29 @@
         <% } %>
     </table>
 </div>
-
 <style>
     #images {
-      font-family: Arial, Helvetica, sans-serif;
-      border-collapse: collapse;
-      width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
-    
+
     #images td, #images th {
-      border: 1px solid #ddd;
-      padding: 8px;
+        border: 1px solid #ddd;
+        padding: 8px;
     }
-    
+
     #images tr:nth-child(even){background-color: #f2f2f2;}
-    
+
     #images tr:hover {background-color: #ddd;}
-    
+
     #images th {
-      padding-top: 12px;
-      padding-bottom: 12px;
-      text-align: left;
-      background-color: #4CAF50;
-      color: white;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #4CAF50;
+        color: white;
     }
-    </style>
+</style>
+</body>
+</html>
