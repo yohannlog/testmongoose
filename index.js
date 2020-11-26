@@ -1,6 +1,5 @@
 const express = require('express')
 var mongoose  = require('mongoose')
-var helper = require('./src/service/testdb');
 var bodyParser = require('body-parser')
 var formidable = require('formidable')
 const app = express()
@@ -11,7 +10,7 @@ var mongoDB = 'mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/test'
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
-app.set('views', './views');
+app.set('views', './src/template');
 app.set('view engine', 'ejs');
 
 

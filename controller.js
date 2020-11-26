@@ -1,33 +1,31 @@
 const mongoose = require('mongoose');
-const model = require('./src/model/model')
+const model = require('./model')
 
 const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrites=true&w=majority";
 
-connection();
-
 async function connection(){
-    mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true}).then(async (connection) => {
-        let res = await selectAll(model, 2);
-        console.log(res);
-        mongoose.disconnect();
-    });
+    mongoose.connect(url, {useNewUrlParser: true, useUnifiedTopology: true})
 }
 
 // ------------------------------------- CRUD ------------------------------------------- //
 
 // CREATE
-async function create(model, options){
-    return await model.insertOne(options)  // options : par ex =( { nom: "JspQui", prenom : "JspQuoi", age : 36 )
-    .then(function(){ 
+async function create(options){
+    if (!options._id){
+        options._id = mongoose.Types.ObjectId();
+    }
+    return await model.create(options)
+    .then(function(res){ 
         console.log("Data inserted")    
+        console.log(JSON.stringify(res))
     }).catch(function(error){ 
         console.log(error)        
-    }); 
-    
+    });
 }
-async function createMany(model, optionsArray){
+async function createMany(optionsArray){
     return await model.insertMany(optionsArray)
-    .then(function(){ 
+    .then(function(res){ 
+        console.log(JSON.stringify(res))
         console.log("Data inserted")    
     }).catch(function(error){ 
         console.log(error)        
@@ -36,30 +34,56 @@ async function createMany(model, optionsArray){
 
 // READ
 
-async function selectAll(model, limit){
+async function selectAll(limit){
     if(limit)
         return await model.find().limit(limit);
     return await model.find();
 }
 
-async function select(model, option){
-    return await model.find(option);
+
+async function select(options){
+    return await model.find(options)
+    .then(function(res){ 
+        console.log(JSON.stringify(res))    
+    }).catch(function(error){ 
+        console.log(error)        
+    }); 
+}
+
+async function selectById(id){
+    return await model.find({_id: id})
+    .then(function(res){ 
+        res = JSON.stringify(res)
+        res === "[]" ? console.log("Nothing found"): console.log(res)    
+    }).catch(function(error){ 
+        console.log(error)        
+    }); 
 }
 
 // UPDATE
-async function updateOne(model, filter, data){
-    return await model.update(filter,data)
-    .then(function(){ 
-        console.log("Data updated")  
+async function updateOne(filter, dataToUpdate){
+    return await model.updateOne(filter,dataToUpdate)
+    .then(function(res){ 
+        if (res === '[]'){
+            console.log("Object not found")
+        }else{
+            console.log(JSON.stringify(res));
+            console.log("Updated")
+        }
     }).catch(function(error){ 
         console.log(error)      
     }); 
 }
 
-async function updateMany(model, options){
-    return await model.update(options)
-    .then(function(){ 
-        console.log("Data updated")    
+async function updateMany(filter,dataToUpdate){ // Filter = {}  for an update on all documents
+    return await model.updateMany(filter,dataToUpdate)
+    .then(function(res){ 
+        if (res === '[]'){
+            console.log("Objects not found")
+        }else{
+            console.log(JSON.stringify(res));
+            console.log("Data Updated")
+        }
     }).catch(function(error){ 
         console.log(error)        
     }); 
@@ -69,25 +93,53 @@ async function updateMany(model, options){
 
 // DELETE
 
-async function deleteOne(model, id){
+async function deleteOne(id){
     return await model.deleteOne({ _id: id })
-    .then(function(){ 
-        console.log("Data deleted")    
+    .then(function(res){ 
+        console.log(JSON.stringify(res))
+        console.log(res.deletedCount +" items deleted")    
     }).catch(function(error){ 
         console.log(error)        
     }); 
 }
 
 
-async function deleteMany(model, option){
+async function deleteMany(option){
     return await model.deleteMany(option)
-    .then(function(){ 
+    .then(function(res){ 
         console.log("Data deleted")    
+        console.log(JSON.stringify(res))    
+        console.log(res.deletedCount +" items deleted")    
     }).catch(function(error){ 
         console.log(error)        
     }); 
 }
 
+// TEST
+async function test(){
+    // const itemstoCreate = [
+    //     { url: "https://www.airbnb.com/users/show/890736", text : "Description 1", id:18553234 },
+    //     { url: "https://www.airbnb.com/users/show/890736", text : "Description 2", id:1855322345 },
+    //     { url: "https://www.airbnb.com/users/show/890736", text : "Description 3", id:1855324235 }
+    // ]
+
+    // await createMany(itemstoCreate)
+    // await createMany(itemsToCreate)
+    // await updateOne({_id: "5fbe4918bfb8cd4ad84a2c88"},{text : "Goodbye"})
+    // await updateMany({ text : { '$regex': "Description", "$options":"i"}},{text : "Modified"})
+    // await deleteMany({ text : { '$regex': "Description", "$options":"i"}})
+    // await selectById('5fbe4918bfb8cd4ad84a2c88')
+    // await select({text : "Modified"})
+    // await deleteOne('5fbe484621b6474a8c421c8a')
+}
+
+
+connection();
+
+test()
+.then(
+    ()=> mongoose.disconnect()
+)
 module.exports = {
     connection,
     create,
