@@ -52,13 +52,7 @@ async function select(options){
 }
 
 async function selectById(id){
-    return await model.find({_id: id})
-    .then(function(res){ 
-        res = JSON.stringify(res)
-        res === "[]" ? console.log("Nothing found"): console.log(res)    
-    }).catch(function(error){ 
-        console.log(error)        
-    }); 
+    return await model.findById(id)
 }
 
 // UPDATE
@@ -96,8 +90,7 @@ async function updateMany(filter,dataToUpdate){ // Filter = {}  for an update on
 
 async function deleteOne(id){
     return await model.deleteOne({ _id: id })
-    .then(function(res){ 
-        console.log(JSON.stringify(res))
+    .then(function(res){
         console.log(res.deletedCount +" items deleted")    
     }).catch(function(error){ 
         console.log(error)        
@@ -107,9 +100,7 @@ async function deleteOne(id){
 
 async function deleteMany(option){
     return await model.deleteMany(option)
-    .then(function(res){ 
-        console.log("Data deleted")    
-        console.log(JSON.stringify(res))    
+    .then(function(res){
         console.log(res.deletedCount +" items deleted")    
     }).catch(function(error){ 
         console.log(error)        
@@ -132,11 +123,16 @@ async function test(){
     // await selectById('5fbe4918bfb8cd4ad84a2c88')
     // await select({text : "Modified"})
     // await deleteOne('5fbe484621b6474a8c421c8a')
+
+    // let res = await selectById('5fbf8cb6cc8a8c197eb1242d')
+    // console.log(JSON.stringify(res))
+    // mongoose.disconnect()
 }
 
 
 connection();
 
+// test()
 module.exports = {
     connection,
     create,
@@ -146,5 +142,6 @@ module.exports = {
     updateOne,
     updateMany,
     deleteOne,
-    deleteMany
+    deleteMany,
+    selectById
 }
