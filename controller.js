@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const model = require('./model')
+const model = require('./src/model/model')
 
 const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrites=true&w=majority";
 

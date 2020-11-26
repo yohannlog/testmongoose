@@ -1,8 +1,8 @@
-const model = require('./model')
+const model = require('../src/model/model')
 const express = require('express');
-const { selectAll, connection } = require('./controller');
+const { selectAll, connection } = require('../controller');
 const router = express.Router();
-const controller = require('./controller')
+const controller = require('../controller')
 
 controller.connection()
 console.log(controller.selectAll(model,2))
