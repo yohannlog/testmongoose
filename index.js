@@ -2,6 +2,7 @@ const express = require('express')
 var mongoose  = require('mongoose')
 var bodyParser = require('body-parser')
 var formidable = require('formidable')
+const controller = require('./controller')
 const app = express()
 const port = 1000
 let fs =require('fs-extra');
