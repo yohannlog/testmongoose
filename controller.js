@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const model = require('./model')
+const model = require('./src/model/model')
 
 const url = "mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/Bidule?retryWrites=true&w=majority";
 
@@ -26,7 +26,7 @@ async function createMany(optionsArray){
     return await model.insertMany(optionsArray)
     .then(function(res){ 
         console.log(JSON.stringify(res))
-        console.log("Data inserted")    
+        console.log("Data inserted")
     }).catch(function(error){ 
         console.log(error)        
     }); 

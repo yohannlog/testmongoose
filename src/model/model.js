@@ -6,16 +6,11 @@ const collectionName = "Bidule";
 
 const BiduleSchema = new Schema(
     {
-        id: Number,
         date: Date,
         name: String,
-        taille: BigInt,
-        tauxReussite:BigInt,
-        type:String,
-
-    },
-    {
-        collection: collectionName
+        taille: Number,
+        tauxReussite:Number,
+        type:String
     }
 );
 

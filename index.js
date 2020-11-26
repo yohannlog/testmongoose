@@ -5,6 +5,7 @@ var formidable = require('formidable')
 const app = express()
 const port = 1000
 let fs =require('fs-extra');
+const {connection, create} = require("./controller");
 
 var mongoDB = 'mongodb+srv://test:test@cluster0.uw4xd.mongodb.net/test'
 
@@ -12,7 +13,6 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded())
 app.set('views', './src/template');
 app.set('view engine', 'ejs');
-
 
 app.get('/', async (req, res) => {
 	try {
@@ -31,7 +31,7 @@ app.post('/upload', async (req, res) => {
 	form.uploadDir = "./img";
 	form.keepExtensions = true;
 
-	form.parse(req, function (err, fields, files) {
+	await form.parse(req, async function (err, fields, files) {
 		res.writeHead(200, {'content-type': 'text/plain'});
 		res.write('received upload\n\n');
 
@@ -42,11 +42,13 @@ app.post('/upload', async (req, res) => {
 		console.log("file type: "+JSON.stringify(files.fileUploaded.type));
 		console.log("astModifiedDate: "+JSON.stringify(files.fileUploaded.lastModifiedDate));
 
-		fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
+		await fs.rename(files.fileUploaded.path, './img/'+files.fileUploaded.name, function(err) {
 			if (err)
 				throw err;
 			console.log('renamed complete');
 		});
+		await connection();
+		await create({name: files.fileUploaded.name, taille: files.fileUploaded.size, tauxReussite: 99999, type: "maman d'alexandre"});
 		res.end();
 	});
 });
