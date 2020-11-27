@@ -27,7 +27,7 @@
 
             let imageName;
 
-            let imgn = document.getElementsByTagName('p')[0].innerHTML;
+            let imgn = "<%= image %>";
             imgn = imgn.split('/');
             imageName = imgn[imgn.length-1];
 
@@ -44,9 +44,9 @@
             }).fail(function (xhr, textStatus, errorThrown) {
                 result = xhr.responseText
             })
-            console.log(pr[0].class)
+
             console.log('Predictions: ', predictions);
-            console.log(predictions[0].class);
+
             buildCanvas(predictions)
         });
     });
