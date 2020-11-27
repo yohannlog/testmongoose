@@ -3,6 +3,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
+<div>
+    <a href="./">acc</a>
+</div>
+<div id="hid" style="display: none">
+    Upload File
+    <form method="post" action="upload" enctype="multipart/form-data">
+        <input type="file" name="fileUploaded">
+        <button type="submit">Submit</button>
+    </form>
+</div>
 <img id="img" src="<%= image %>" >
 <canvas id="canvas"></canvas>
 <p>Résultat :</p>
@@ -48,6 +58,7 @@
             console.log('Predictions: ', predictions);
 
             buildCanvas(predictions)
+            document.getElementById("hid").style.display = "block";
         });
     });
 
