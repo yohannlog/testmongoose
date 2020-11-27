@@ -15,16 +15,22 @@
     <table id="images">
         <tr>
             <td>N°</td>
-            <td>Type</td>
+            <td>Type reconnu</td>
             <td>Nom</td>
+            <td>Date</td>
+            <td>Taille</td>
+            <td>Taux de réussite</td>
         </tr>
         <% for(var i=0; i < items.length; i++) { %>
             <tr>
                 <td><%= i + 1 %></td>
                 <td><%= items[i].type %></td>
                 <td><b><%= items[i].name %></b></td>
-                <td><a href="delete/<%= items[i]._id %>"/>Delete</a></td>
-                <td><a href="image/<%= items[i]._id %>"/>View</a></td>
+                <td><%= items[i].date %></td>
+                <td><%= items[i].taille%> bit</td>
+                <td><%= items[i].tauxReussite *100%> %</td>
+                <td><a href="delete/<%= items[i]._id %>">Delete</a></td>
+                <td><a href="image/<%= items[i]._id %>">View</a></td>
             </tr>
         <% } %>
     </table>
